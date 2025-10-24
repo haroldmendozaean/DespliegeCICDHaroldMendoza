@@ -32,6 +32,6 @@ jobs:
       - name: 📤 Subir modelo como artefacto (si pasa validación)
         if: success()
         uses: actions/upload-artifact@v4
-         with:
+        with:
            name: modelo-validado
            path: model.pkl
