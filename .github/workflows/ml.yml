@@ -1,0 +1,36 @@
+name: CI/CD Pipeline MLflow (Housing Prices)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📦 Checkout
+        uses: actions/checkout@v3
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🤖 Train model
+        run: make train
+
+      - name: ✅ Validate model
+        run: make validate
+
+      - name: 📤 Upload artifact (model.pkl)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trained-model
+          path: model.pkl

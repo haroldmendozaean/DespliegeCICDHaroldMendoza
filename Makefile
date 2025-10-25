@@ -1,5 +1,13 @@
-# filepath: /home/manuelcastiblan/academic/mlflow-deploy/mlflow-deploy/Makefile
+install:
+	pip install -r requirements.txt
+
 train:
-	python src/train.py  
+	python src/train.py
+
 validate:
-	python src/validate.py 
+	python src/evaluate.py
+
+test:
+	python - <<'PY'
+print('No unit tests configured yet')
+PY
