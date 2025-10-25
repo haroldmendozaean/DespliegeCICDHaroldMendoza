@@ -1,31 +1,38 @@
-# Housing Prices CI/CD with MLflow + GitHub Actions
+# Proyecto EAN – CI/CD de Machine Learning con MLflow y GitHub Actions (Precios de Vivienda)
 
-This repository demonstrates a full ML pipeline using a **public housing dataset**,
-a **Gradient Boosting Regressor**, and **MLflow** for experiment tracking.
-The pipeline is automated with **GitHub Actions**.
+Este proyecto implementa un pipeline completo de Machine Learning con **preprocesamiento**, **entrenamiento**, **evaluación** y **seguimiento con MLflow**, automatizado mediante **GitHub Actions** (CI/CD).
 
-## Project structure
+## Estructura
 ```
 .
-├── .github/workflows/ml.yml       # CI/CD workflow
-├── data/housing.csv               # dataset (synthetic Kaggle-like)
-├── src/train.py                   # training + MLflow logging
-├── src/evaluate.py                # evaluation + quality gate
-├── Makefile                       # convenience tasks
+├── config.yaml
+├── data/housing.csv
+├── src/train.py
+├── src/evaluate.py
+├── tests/test_basic.py
+├── .github/workflows/ml.yml
+├── Makefile
 ├── requirements.txt
-└── mlruns/                        # local MLflow tracking (created at runtime)
+└── README.md
 ```
 
-## Quick start (local)
+## Ejecución local
 ```bash
 make install
 make train
 make validate
 ```
 
-## CI/CD
-On each push to `main`, the workflow:
-1. Installs dependencies
-2. Trains the model
-3. Validates performance
-4. Uploads `model.pkl` as a build artifact
+## Configuración
+Hiperparámetros, rutas y división de datos en `config.yaml`.
+
+## CI/CD en GitHub
+En cada push a `main`:
+1. Linter (flake8)
+2. Tests (pytest)
+3. Entrenamiento (make train)
+4. Validación (make validate)
+5. Subida del artefacto `model.pkl`
+
+## MLflow
+Tracking local: `file://mlruns`. Se registran **parámetros**, **métricas**, **firma** y **ejemplo de entrada**.

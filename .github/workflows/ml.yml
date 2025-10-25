@@ -1,8 +1,9 @@
-name: CI/CD Pipeline MLflow (Housing Prices)
+name: CI/CD MLflow (Precios de Vivienda)
 
 on:
   push:
     branches: [ main ]
+  pull_request:
 
 jobs:
   build:
@@ -12,25 +13,32 @@ jobs:
       - name: 📦 Checkout
         uses: actions/checkout@v3
 
-      - name: 🐍 Setup Python
+      - name: 🐍 Configurar Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: 📦 Install dependencies
+      - name: 📦 Instalar dependencias
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install flake8 pytest
 
-      - name: 🤖 Train model
+      - name: 🔍 Linter (flake8)
+        run: flake8 src || true
+
+      - name: 🧪 Pruebas (pytest)
+        run: pytest -q
+
+      - name: 🤖 Entrenar modelo
         run: make train
 
-      - name: ✅ Validate model
+      - name: ✅ Validar modelo
         run: make validate
 
-      - name: 📤 Upload artifact (model.pkl)
+      - name: 📤 Subir artefacto (model.pkl)
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: trained-model
+          name: modelo-entrenado
           path: model.pkl

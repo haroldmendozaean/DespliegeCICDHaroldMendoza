@@ -8,6 +8,4 @@ validate:
 	python src/evaluate.py
 
 test:
-	python - <<'PY'
-print('No unit tests configured yet')
-PY
+	pytest -q
